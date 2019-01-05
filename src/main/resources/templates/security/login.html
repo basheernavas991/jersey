@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layout/layout-security">
+<head>
+    
+</head>
+<body layout:fragment="content">
+   		<br/><br/>
+	   	<div class="login_wrapper">
+	   		<div class="animate form login_form">
+	     		<section class="text-center">
+	     			<br/>   
+	    			<img src="/images/top-logo.png" alt="..." class="img-responsive img-circle profile_img text-center"/>
+	           		<h1>TOP Stallion</h1><br />
+		            <div th:if="${param.error}">
+				        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+		                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		                    Invalid username and password.
+		                </div>
+				    </div>
+				    <div th:if="${param.logout}">
+				        <div class="alert alert-success alert-dismissible fade in" role="alert">
+		                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		                    You have been logged out.
+		                </div>
+				    </div>
+					<form th:action="@{/security/login}" method="post">
+					     <input type="text" class="form-control" name="username" placeholder="Username" required="" />
+					     <input type="password" class="form-control" name="password" placeholder="Password" required="" />
+					     <br />
+					     <div><input type="submit" class="btn btn-default submit" value="Sign In"/></div>
+					   	 <div class="separator">
+					     <div>
+					       <p>Copyright © All Right Reserved @2017 <a href="https://top.ic.edu.sa">The Oxford Partnership</a></p>
+					       <p th:text="*{version}"></p>
+					     </div>
+					   </div>
+					</form>
+			    </section>
+	     	 </div>
+		</div>
+  </body>
+</html>

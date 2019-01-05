@@ -1,0 +1,26 @@
+ <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" data-th-fragment="layout-sidebar-menu">
+   <div class="menu_section">
+     <h3>General</h3>
+     <ul class="nav side-menu">
+       <li sec:authorize="hasAnyAuthority()"><a><i class="fa fa-user"></i> Livestock Manager<span class="fa fa-chevron-down"></span></a>
+         <ul class="nav child_menu">
+           <li sec:authorize="hasAuthority('STUD_STD_VIEW')"><a  th:href="@{/student/search/manager}">Livestock Manager</a></li>
+         </ul>
+       </li>
+     </ul>
+   </div>
+   <div class="menu_section" sec:authorize="hasAnyAuthority()">
+     <h3>Settings</h3>
+     <ul class="nav side-menu">
+       <li sec:authorize="hasAnyAuthority('SETT_LOOK_VIEW' , 'SETT_SYS_CONF_VIEW', 'STUD_KPI_VIEW' , 'SECU_USER_VIEW', 'SECU_ROLE_VIEW' , 'SETT_TIM_HOU_CONF_VIEW', 'SECU_GRP_USER_VIEW', 'STNG_ACCSS_LOG_VIEW')"><a><i class="fa fa-th-list"></i> System Settings <span class="fa fa-chevron-down"></span></a>
+         <ul class="nav child_menu">
+           <li sec:authorize="hasAuthority('SETT_LOOK_VIEW')"><a  th:href="@{/lookup/manager}">Lookup Manager</a></li>
+           <li sec:authorize="hasAuthority('SETT_SYS_CONF_VIEW')"><a  th:href="@{/setting/system/config/view}">System Configuration</a></li> 
+           <li sec:authorize="hasAuthority('SECU_USER_VIEW')"><a  th:href="@{/user/manager}">User Manager</a></li>
+           <li sec:authorize="hasAuthority('SECU_ROLE_VIEW')"><a  th:href="@{/role/manager}">Roles Manager</a></li>
+           <li sec:authorize="hasAuthority('STNG_ACCSS_LOG_VIEW')"><a  th:href="@{/setting/audit/log/manager}">Access Logs</a></li>
+         </ul>
+       </li>
+     </ul>
+   </div>	
+ </div>

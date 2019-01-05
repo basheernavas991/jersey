@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      layout:decorator="layout/layout-security">
+      layout:decorator="theme/gentelella/layout-security">
 <head>
 
-<!-- <style>
+<style>
 body {
-    background: url(/images/stallion.gif)
+    background: url(/images/cow.jpg)
                 no-repeat center center fixed;
     background-size: cover;
 }
@@ -14,17 +14,20 @@ body {
 h1, p, a{
 	color: snow;
 }
-</style> -->	
+</style>	
     
 </head>
-<body >
+<body layout:fragment="content">
    		<br/><br/><br/><br/><br/><br/>
 	   	<div class="col-xs-8">
 		   	<div class="login_wrapper">
 		   		<div class="animate form login_form">
 		     		<section class="text-center">
+		     			<br/>
+		     			<br/>
 		     			<br/>   
-		           		<h1>Jazeera sdsdJersey</h1><br />
+		    			<!-- <img src="/images/logo.png" alt=" -->"/>
+		           		<h1>Jersey</h1><br />
 			            <div th:if="${param.error}">
 					        <div class="alert alert-danger alert-dismissible fade in" role="alert">
 			                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
@@ -43,6 +46,10 @@ h1, p, a{
 						     <br />
 						     <div><input type="submit" class="btn btn-success submit" value="Sign In"/></div>
 						   	 <div class="separator">
+						     <div>
+						       <p>Copyright © 2019, All Right Reserved @Jazeera Dairy Farm</p>
+						       <p th:text="*{version}"></p>
+						     </div>
 						   </div>
 						</form>
 				    </section>

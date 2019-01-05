@@ -1,0 +1,81 @@
+
+<div th:fragment="userPrivacyAgreement" id="userPrivacyAgreement">
+	<script th:inline="javascript">
+	    /*<![CDATA[*/
+	    	$(function(){
+	    		checkPolicyAcceptance();
+	    		
+	    		$('#userPrivacyAccepted').click(function(){
+	    		    if($(this).is(':checked')){
+	    		    	document.getElementById('userPrivacyAcceptedButton').disabled = false;
+	    		    }else{
+	    		    	document.getElementById('userPrivacyAcceptedButton').disabled = true;
+	    		    }
+	    		});
+	    	});
+	    
+	    	function checkPolicyAcceptance(){
+	    		var link = /*[[@{/security/policy/agreement}]]*/;
+	    		$.ajax({
+				     type: "GET",
+				     url: link,
+				     success: function(data){
+				    	 if(!data.status){
+				    		 $('#userPrivacyAgreementFormModal').modal('show');
+				    		 $('#userPrivacyAgreementFormModal #userPrivacyAgreementP').html(data.data);
+				    	 }
+				     }
+				 });
+	    	}
+	    	
+	    	function savePolicyAcceptance(){
+	    		if($("#userPrivacyAccepted").prop('checked') == false){
+	    			showGrowlError("Please agree to the terms and conditions");
+	    			return;
+	    		}
+	    		var link = /*[[@{/security/policy/agreement/save}]]*/;
+	    		$.ajax({
+				     type: "POST",
+				     url: link,
+				     success: function(data){
+				    	 if(data.status){
+				    		 $('#userPrivacyAgreementFormModal').modal('hide');
+				    	 }else{
+				    		 showGrowlError("Some Error Occured, Please contact administrator!!!");		 
+				    	 }
+				     }
+				 });
+				 
+			}
+	    	
+	    	
+	     /*]]>*/
+	</script>
+
+	<div th:replace="layout/fragment-user-privacy-agreement::userPrivacyAgreementFormModal"></div>
+</div>
+
+
+	
+<div th:fragment="userPrivacyAgreementFormModal"  id="userPrivacyAgreementFormModal" class="modal bs-example-modal-lg" tabindex="-1" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Data Privacy and Protection Agreement</h4>
+			</div>
+			<div class="modal-body">
+				<p id="userPrivacyAgreementP"></p>
+			</div>
+			<div class="clearfix"></div>
+			<div class="modal-footer">
+				<div class="item" align="center">
+					<input type="checkbox" id ="userPrivacyAccepted" />
+					<label for="a">I hereby agree to the above terms and conditions</label>
+				</div>
+			</div>
+				<div align="center">
+					<button id="userPrivacyAcceptedButton" th:onclick="${'javascript:savePolicyAcceptance()'}" class="btn btn-primary" disabled="disabled">Submit</button>
+				</div>
+		</div>
+	</div>
+</div>

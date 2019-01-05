@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/layout">
+
+<head>
+	<title>TOP Stallion | User Manager</title>
+</head>
+<body>
+	<th:block layout:fragment="script">
+		<script th:inline="javascript">
+		    /*<![CDATA[*/
+		    	$(function(){
+		    		initializeUserTable();
+		    		initPersonSearchFragment();
+		    		var personName = $("form#userForm #personName").val();
+		    		$("#fragment-person-search").append('<option value="dd" selected="selected">'+personName+'</option>');
+		    	});
+		    	//Support functionlity for fragment : Staff Search
+		    	function personSearchOnSelectMethod(id){
+		    		$("form#userForm #personId").val(id);
+		    		
+		    	}
+		     /*]]>*/
+		</script> 
+	</th:block>
+	<div class="nav-md" layout:fragment="content">
+		<div class="right_col" role="main">
+			<div class="page-title">
+              <div class="title_left">
+                <h3>User Manager</h3>
+              </div>
+			</div>
+            <div class="clearfix"></div>
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="x_panel">
+		           		<div class="x_title">
+							<h2>Users</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<script th:inline="javascript">
+							    /*<![CDATA[*/
+							    	function initializeUserTable(){
+							    		var link = /*[[@{/user/json}]]*/;
+							    		var userTable = $("#userTable").DataTable({
+							    			"ajax": {
+						    		            "url": link,
+						    		            "dataSrc": ""
+						    		        },
+						    		        "columns": [
+						    		        	{ "data": "userId", "orderable": false, 
+						    		            	"render": function ( data, type, full, meta ) {
+						    		                 	return "<a href='/user/view?id="+full.userId+"' title='View User'><i class='fa fa-external-link'></i></a>";
+						    		            	}
+						    		            },
+						    		        	{ "data": "username" },
+						    		            { "data": "firstName" },
+						    		            { "data": "lastName" },
+						    		            { "data": "lastAccessedDate",
+						    		              "render": function (data) {
+					    		                    return stFormatDateTime(data);
+						    		              }
+						    		            },
+						    		            { "data": "enabled"}
+						    		        ]
+							    		});
+							    		
+							    		$('#userTable tbody').on( 'click', 'tr', function () {
+							    			var data = userTable.row( this ).data();
+							    			if ( $(this).hasClass('selected') ) {
+							    	            $(this).removeClass('selected');
+							    	        }
+							    	        else {
+							    	        	userTable.$('tr.selected').removeClass('selected');
+							    	            $(this).addClass('selected');
+							    	        }
+							    	    });
+							    		
+							    		//on Row Double Click event
+							    		$('#userTable tbody').on('dblclick', 'tr', function () {
+							    			var data = userTable.row( this ).data();
+							    			getUser(data.userId);
+							    		});
+							    	}
+							    
+							     /*]]>*/
+							</script> 
+							<table id="userTable" th:fragment="users" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<td></td>
+										<td>Username</td>
+										<td>First Name</td>
+										<td>Last Name</td>
+										<td>Last Accessed Date</td>
+										<td>Active</td>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="x_panel">
+						<div class="x_content">
+							<form th:fragment="form" id="userForm" th:object="${user}" th:action="@{/user/save}" method="POST" class="form-horizontal form-label-left">
+								<div class="" role="tabpanel" data-example-id="togglable-tabs">
+			                      <ul id="userTabs" class="nav nav-tabs bar_tabs" role="tablist">
+			                        <li sec:authorize="hasAuthority('SECU_USER_VIEW')" role="presentation" class="active"><a href="#tab_userprofile" role="tab" data-toggle="tab" aria-expanded="false">Profile</a></li>
+			                        <li sec:authorize="hasAuthority('SECU_ROLE_VIEW')" role="presentation" class=""><a href="#tab_userrole" role="tab" data-toggle="tab" aria-expanded="false">Roles</a></li>
+			                      </ul>
+			                      <div id="myTabContent" class="tab-content">
+										<div role="tabpanel" class="tab-pane fade active in" id="tab_userprofile" aria-labelledby="profile-tab">
+											<script th:inline="javascript">
+											    /*<![CDATA[*/
+											    	function getUser(id){
+											    		var link = /*[[@{/user/view}]]*/;
+											    		if(id != null && id > 0){
+											    			link = link+"?id="+id;
+											    		}
+											    		window.location=link;		
+											      	}
+										
+											     /*]]>*/
+											</script> 
+											<div th:replace="fragments/fragment-base::validation-global"></div>
+											<input type="hidden" th:field="*{id}"/>
+											<input type="hidden" th:field="*{userPrivacyAccepted}"/>
+											<input type="hidden" th:field="*{personId}"/>
+											<input type="hidden" th:field="*{personName}"/>
+											<input type="hidden" th:field="*{createdBy}"/>
+											<input type="hidden" th:field="*{lastModifiedBy}"/>
+											<input type="hidden" th:field="*{version}"/>
+											<div class="form-group">
+										    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.staffId}"></label>
+											    <div class="col-md-6 col-sm-6 col-xs-12">
+											     	<div th:replace="fragments/fragment-person::search"></div>
+											    </div>
+										   	</div>
+											<div class="form-group">
+										    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.username}"></label>
+											    <div class="col-md-6 col-sm-6 col-xs-12">
+											     	<input type="text" th:field="*{username}" class="form-control col-md-7 col-xs-12" th:errorClass="parsley-error" autofocus="autofocus"/>
+											     	<div th:replace="fragments/fragment-base::validation-errors(field=username)"></div>
+											    </div>
+										   	</div>
+										   	<div class="form-group" th:classappend="${user.id != null}? 'hide'">
+										    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.password}"></label>
+											    <div class="col-md-6 col-sm-6 col-xs-12">
+											     	<input type="password" th:field="*{password}" class="form-control col-md-7 col-xs-12" th:errorClass="parsley-error"/>
+											     	<div th:replace="fragments/fragment-base::validation-errors(field=password)"></div>
+											    </div>
+										   	</div>
+										   	<div class="form-group" th:if="${user.id} == null">
+										    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.confirmPassword}"></label>
+											    <div class="col-md-6 col-sm-6 col-xs-12">
+											     	<input type="password" th:field="*{confirmPassword}" class="form-control col-md-7 col-xs-12" th:errorClass="parsley-error"/>
+											     	<div th:replace="fragments/fragment-base::validation-errors(field=confirmPassword)"></div>
+											    </div>	
+										   	</div>
+										   	
+										   	<div class="form-group">
+										    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.firstName}"></label>
+										     <div class="col-md-6 col-sm-6 col-xs-12">
+										     	<input type="text" th:field="*{firstName}" class="form-control col-md-7 col-xs-12" th:errorClass="parsley-error"/>
+										     	<div th:replace="fragments/fragment-base::validation-errors(field=firstName)"></div>
+										     </div>
+										   	</div>
+										   	<div class="form-group">
+										    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.lastName}"></label>
+										     <div class="col-md-6 col-sm-6 col-xs-12">
+										     	<input type="text" th:field="*{lastName}" class="form-control col-md-7 col-xs-12" th:errorClass="parsley-error"/>
+										     	<div th:replace="fragments/fragment-base::validation-errors(field=lastName)"></div>
+										     </div>
+										   	</div>
+										   	<!-- <div class="form-group">
+												<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.person}"></label>
+											    <div class="col-md-6 col-sm-6 col-xs-12">
+													<select class="form-control" th:field="*{personId}">
+														<option value="">Select a value</option>
+														<option th:each="p : ${persons}" th:value="${p.id}" th:text="${a.name}"></option>
+													</select>
+													<div th:replace="fragments/fragment-base::validation-errors(field=academicYear)"></div>	
+												</div>
+											</div> -->
+										   	<div class="form-group">
+												<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.lastAccessedDate}">Last Accessed Date</label>
+												<div class="col-md-6 col-sm-6 col-xs-12">
+													<input type="text" th:field="*{lastAccessedDate}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+												</div>
+											</div>
+											
+										   	<div class="form-group">
+										    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.enabled}"></label>
+											    <div class="col-md-6 col-sm-6 col-xs-12">
+											    	<input type="checkbox" th:field="*{enabled}" class="checkbox"/>
+											    	<div th:replace="fragments/fragment-base::validation-errors(field=enabled)"></div>
+											    </div>
+										   	</div>
+										   	
+										   	<!-- Auditing -->
+										    <div th:include="fragments/fragment-base::auditing"></div>
+										</div>
+										<div role="tabpanel" class="tab-pane fade" id="tab_userrole" aria-labelledby="profile-tab">
+											<ul>
+											  <li th:each="r : ${availableRoles}">
+											    <input type="checkbox" th:field="*{rolesIds}" th:value="${r.id}" />
+											    <label th:for="${#ids.prev('rolesIds')}" 
+											           th:text="${r.name}">role name</label>
+											  </li>
+											</ul>
+				                        </div>
+		                      		</div>
+		                    	</div>
+		                    	<div class="ln_solid"></div>
+		                    	<div class="form-group">
+					                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                						<button sec:authorize="hasAuthority('SECU_USER_SAVE')" class="btn btn-primary" type="button" onclick="getUser()" th:text="#{global.new}"></button>
+    					                <button sec:authorize="hasAuthority('SECU_USER_SAVE')" type="submit" class="btn btn-success" th:text="#{global.save}"></button>
+	                				</div>
+              					</div>
+		                    </form>
+						</div>
+					</div>
+					<div th:if="${user.id != null}" sec:authorize="hasAuthority('SECU_USER_PASS_RESET')" class="x_panel" >
+						<div class="x_title">
+							<h2>Reset Password</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<form class="form-horizontal form-label-left" th:action="@{/user/reset/password}" method="POST">
+								<input type="hidden" id="userId" name="userId" th:value="${user.id}"/>
+								<div class="form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{user.form.newPassword}"></label>
+								    <div class="col-md-6 col-sm-6 col-xs-12">
+								    	<input type="text" id="newPassword" name="newPassword" class="form-control col-md-7 col-xs-12" required="required"/>
+								    </div>
+							   	</div>
+							   	<div class="form-group">
+					                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+    					                <button sec:authorize="hasAuthority('SECU_USER_PASS_RESET')" type="submit" class="btn btn-success">Reset Password</button>
+	                				</div>
+              					</div>
+						   	</form>
+						</div>
+					</div>	
+				</div>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -27,9 +27,4 @@ public class SecurityViewController {
 		//model.addAttribute("version", settingService.getVersion());
 	    return "security/login-new";
 	}
-	
-	@RequestMapping("/")
-    public String greeting(Model model){
-        return "greeting";
-    }
 }

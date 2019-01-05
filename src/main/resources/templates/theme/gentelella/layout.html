@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Bootstrap -->
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Font Awesome -->
+    <link href="/webjars/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <!-- NProgress -->
+    <link href="/webjars/nprogress/nprogress.css" rel="stylesheet"/>
+    <!-- NProgress -->
+    <link href="/webjars/select2/dist/css/select2.min.css" rel="stylesheet"/>
+    <!-- Bootstrap Date Range Picker -->
+    <link href="/webjars/bootstrap-daterangepicker/css/bootstrap-daterangepicker.css" rel="stylesheet"/>
+    <!-- Bootstrap Date Picker -->
+	<link href="/webjars/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet"/>
+    <!-- Data Table  -->
+    <link href="/css/datatables.min.css" rel="stylesheet"/>
+	<!-- qTip2  -->
+	<link href="/webjars/qtip2/3.0.3/jquery.qtip.min.css" rel="stylesheet"/>
+	
+    <!-- Custom Theme Style -->
+    <link href="/css/themes/gentelella/custom.css" rel="stylesheet"/>
+    <link href="/css/jersey.css" rel="stylesheet"/>
+    
+    
+    <!-- jQuery -->
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Jquery Block UI -->
+    <script src="/webjars/jquery-blockui/jquery.blockUI.js"></script>
+    <!-- Jquery Are you sure -->
+    <script src="/webjars/jquery_are-you-sure/jquery.are-you-sure.js"></script>
+    <!-- FastClick -->
+    <script src="/webjars/fastclick/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="/webjars/nprogress/nprogress.js"></script>
+    <!-- Select 2  -->
+    <script src="/webjars/select2/dist/js/select2.full.min.js"></script>
+    <!-- Bootstrap Date Range Picker -->
+    <script src="/webjars/momentjs/min/moment.min.js"></script>
+    <script src="/webjars/bootstrap-daterangepicker/js/bootstrap-daterangepicker.js"></script>
+    <!-- Bootstrap Date Picker -->
+    <script src="/webjars/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <!-- DataTable -->
+    <script src="/js/datatables.min.js"></script>
+    <script src="/js/jquery.spring-friendly.js"></script>
+    
+    <!-- qTip2  -->
+    <script src="/webjars/qtip2/3.0.3/jquery.qtip.min.js"></script>
+    
+    <script th:inline="javascript">
+		/*<![CDATA[*/
+		/*]]>*/
+	</script> 
+    
+  </head>
+
+  <body class="nav-md ">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a th:href="@{/}" class="site_title"><i class="fa fa-paw"></i> <span th:text="${siteName}"></span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+            <div th:replace="theme/gentelella/fragment-layout-menu-profile-quick-info::layout-menu-profile-quick-info"></div>
+            <br />
+
+            <!-- sidebar menu -->
+           	<div th:replace="theme/gentelella/fragment-layout-sidebar-menu::layout-sidebar-menu"></div>
+
+            <!-- /menu footer buttons -->
+            <div th:replace="theme/gentelella/fragment-layout-sidebar-menu-footer::layout-sidebar-menu-footer"></div>
+            
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div th:replace="theme/gentelella/fragment-layout-top-navigation::layout-top-navigation"></div>
+		<div id="qtip-growl-container"></div>
+        <!-- page content -->
+        <div data-layout-fragment="content"></div>
+		<!-- User Privacy Agreement -->
+		<!-- <div th:replace="layout/fragment-user-privacy-agreement::userPrivacyAgreement"></div> -->
+		
+		
+		
+        <!-- footer content -->
+        <div th:replace="theme/gentelella/fragment-layout-footer::layout-footer"></div>
+        
+      </div>
+    </div>
+
+    <!-- Custom Theme Scripts -->
+   	<script src="/js/themes/gentelella/custom.min.js"></script>
+    <script src="/js/jersey.js"></script>
+    <th:block data-layout-fragment="script"></th:block>
+    
+  </body>
+</html>

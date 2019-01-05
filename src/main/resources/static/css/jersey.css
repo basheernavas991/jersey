@@ -1,0 +1,196 @@
+/* Custom Css for Stallion Project */
+
+
+
+/* highlight class attributes for table */
+.table-striped tbody tr.highlight td:first-child { 
+	border-left: 5px solid #1ABB9C;
+}
+
+
+/* highlight media date */
+.media .date.active {
+    background: #1abb9c;
+}    
+
+article.media.activity {
+    display: inline;
+}
+
+.media.activity .date {
+    margin-bottom: 6px;
+}
+
+
+
+#qtip-growl-container{
+    position: fixed;
+    top: 10px; right: 10px;
+    z-index: 25000;
+}
+#qtip-growl-container .qtip{
+    position: static;
+    min-height: 0;
+    overflow: hidden;
+    margin: 0 0 5px 0;
+}
+
+
+
+.table-header-rotated th.row-header{
+  width: auto;
+}
+
+.table-header-rotated td{
+  width: 45px;
+  border-top: 1px solid #dddddd;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+}
+
+.table-header-rotated td input{
+	padding-right: 4px;
+    padding-left: 5px;
+}
+
+.table-header-rotated th.rotate-45{
+  height: 80px;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  position: relative;
+  vertical-align: bottom;
+  padding: 0;
+  font-size: 12px;
+  line-height: 0.8;
+}
+
+.table-header-rotated th.rotate-45 > div{
+  position: relative;
+  top: 0px;
+  left: 40px; /* 80 * tan(45) / 2 = 40 where 80 is the height on the cell and 45 is the transform angle*/
+  height: 100%;
+  -ms-transform:skew(-45deg,0deg);
+  -moz-transform:skew(-45deg,0deg);
+  -webkit-transform:skew(-45deg,0deg);
+  -o-transform:skew(-45deg,0deg);
+  transform:skew(-45deg,0deg);
+  overflow: hidden;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
+}
+
+.table-header-rotated th.rotate-45 span {
+  -ms-transform:skew(45deg,0deg) rotate(315deg);
+  -moz-transform:skew(45deg,0deg) rotate(315deg);
+  -webkit-transform:skew(45deg,0deg) rotate(315deg);
+  -o-transform:skew(45deg,0deg) rotate(315deg);
+  transform:skew(45deg,0deg) rotate(315deg);
+  position: absolute;
+  bottom: 30px; /* 40 cos(45) = 28 with an additional 2px margin*/
+  left: -25px; /*Because it looked good, but there is probably a mathematical link here as well*/
+  display: inline-block;
+  width: 85px; /* 80 / cos(45) - 40 cos (45) = 85 where 80 is the height of the cell, 40 the width of the cell and 45 the transform angle*/
+  text-align: left;
+  /* white-space: nowrap; *//*whether to display in one line or not*/
+}
+
+
+.activity-card p{
+   margin: 0 0 -12px;
+}
+
+.fc-event {
+   bottom: 29px;  
+}    
+  
+.affix {
+	top:50px;
+    right:0;
+    position:fixed;
+}  
+    
+
+
+/* th.rotate {
+  Something you can count on
+  height: 140px;
+  white-space: nowrap;
+}
+
+th.rotate > div {
+  transform: 
+    Magic Numbers
+    translate(25px, 51px)
+    45 is really 360 - 45
+    rotate(315deg);
+  width: 30px;
+}
+th.rotate > div > span {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 10px;
+} */
+
+
+
+
+/* Custom Theming v0.2.0 */
+.nav.side-menu>li.active, .nav.side-menu>li.current-page {
+    border-right: 5px solid #ee4699;
+}
+
+/*
+Flash button to highlight teachers missing registers
+*/
+.flash-button{
+		background:orange;
+		padding:5px 10px;
+		color:#fff;
+		border:none;
+		border-radius:5px;
+		
+		animation-name: flash;
+		animation-duration: 1s;
+		animation-timing-function: linear;
+		animation-iteration-count: infinite;
+	
+		//Firefox 1+
+		-webkit-animation-name: flash;
+		-webkit-animation-duration: 1s;
+		-webkit-animation-timing-function: linear;
+		-webkit-animation-iteration-count: infinite;
+	
+		//Safari 3-4
+		-moz-animation-name: flash;
+		-moz-animation-duration: 1s;
+		-moz-animation-timing-function: linear;
+		-moz-animation-iteration-count: infinite;
+	}
+		@keyframes flash {  
+	    0% { opacity: 1.0; }
+	    50% { opacity: 0.5; }
+	    100% { opacity: 1.0; }
+	}
+	
+	//Firefox 1+
+	@-webkit-keyframes flash {  
+	    0% { opacity: 1.0; }
+	    50% { opacity: 0.5; }
+	    100% { opacity: 1.0; }
+	}
+	
+	//Safari 3-4
+	@-moz-keyframes flash {  
+	    0% { opacity: 1.0; }
+	    50% { opacity: 0.5; }
+	    100% { opacity: 1.0; }
+    }
+
+
+/*
+ * Select 2: selected values background color
+ */ 
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+   background-color: #bdf1e6;
+}   

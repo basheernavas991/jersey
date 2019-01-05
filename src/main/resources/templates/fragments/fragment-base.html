@@ -1,0 +1,97 @@
+<!-- HTML container for different types Thymeleaf fragments to be used in HTML Files  -->
+<!-- @author: Navas Basheer  -->
+
+
+
+<!-- Display validation Error messages -->
+<p data-th-fragment="validation-errors(field)"
+	th:if="${#fields.hasErrors(field)}"
+	th:errors="*{__${field}__}"
+	th:errorclass="red">
+</p>
+
+
+<!-- Global Validation Message Displayer -->
+<!-- Based on the Model Attribute Values "success", "error", "info" and "warning"-->
+<div th:fragment="validation-global">
+	<div th:each="message : ${success}" th:if="${success != null}" class="alert alert-success alert-dismissible fade in" role="alert">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+	  </button>
+	  <strong th:text="#{__${message}__}"></strong>
+	</div>
+	<div th:each="message : ${error}" th:if="${error != null}" class="alert alert-danger alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+      </button>
+      <strong th:text="#{__${message}__}"></strong>
+    </div>
+    <div th:each="message : ${errorMessage}" th:if="${errorMessage != null}" class="alert alert-danger alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+      </button>
+      <strong th:text="${message}"></strong>
+    </div>
+	<div th:each="message : ${info}" th:if="${info != null}" class="alert alert-info alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+      </button>
+      <strong th:text="#{__${message}__}"></strong>
+    </div>
+    <div th:each="message : ${warning}" th:if="${warning != null}" class="alert alert-warning alert-dismissible fade in" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+      </button>
+      <strong th:text="#{__${message}__}"></strong>
+    </div>
+</div>
+
+
+<div th:fragment="auditing">
+   	<div class="form-group">
+		<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{global.createdBy}">Created By</label>
+		<div class="col-md-7 col-sm-7 col-xs-12">
+			<input type="text" th:field="*{createdUser.username}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{global.createdDate}">Created Date</label>
+		<div class="col-md-7 col-sm-7 col-xs-12">
+			<input type="text" th:field="*{createdDate}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{global.modifiedBy}">Modified By</label>
+		<div class="col-md-7 col-sm-7 col-xs-12">
+			<input type="text" th:field="*{lastModifiedUser.username}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{global.modifiedDate}">Modified Date</label>
+		<div class="col-md-7 col-sm-7 col-xs-12">
+			<input type="text" th:field="*{lastModifiedDate}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+		</div>
+	</div>
+</div>
+
+<div th:fragment="auditing1">
+   	<div class="form-group">
+		<label class="control-label col-md-4 col-sm-4 col-xs-12" th:text="#{global.createdBy}">Created By</label>
+		<div class="col-md-7 col-sm-7 col-xs-12">
+			<input type="text" th:field="*{createdUser.username}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-4 col-sm-4 col-xs-12" th:text="#{global.createdDate}">Created Date</label>
+		<div class="col-md-7 col-sm-7 col-xs-12">
+			<input type="text" th:field="*{createdDate}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-4 col-sm-4 col-xs-12" th:text="#{global.modifiedBy}">Modified By</label>
+		<div class="col-md-7 col-sm-7 col-xs-12">
+			<input type="text" th:field="*{lastModifiedUser.username}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-4 col-sm-4 col-xs-12" th:text="#{global.modifiedDate}">Modified Date</label>
+		<div class="col-md-7 col-sm-7 col-xs-12">
+			<input type="text" th:field="*{lastModifiedDate}" class="form-control col-md-7 col-xs-12" readonly="readonly"/>
+		</div>
+	</div>
+</div>

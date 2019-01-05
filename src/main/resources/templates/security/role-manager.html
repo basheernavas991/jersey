@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/layout">
+
+<head>
+	<title>TOP Stallion | Role Manager</title>
+</head>
+<body>
+	<th:block layout:fragment="script">
+		<script th:inline="javascript">
+		    /*<![CDATA[*/
+		    	$(function(){
+		    		initializeRoleTable();
+		    		getRole();
+		    	});
+		     /*]]>*/
+		</script> 
+	</th:block>
+	<div class="nav-md" layout:fragment="content">
+		<div class="right_col" role="main">
+			<div class="page-title">
+              <div class="title_left">
+                <h3>Role Manager</h3>
+              </div>
+			</div>
+            <div class="clearfix"></div>
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+					<div class="x_panel">
+		           		<div class="x_title">
+							<h2>Security Roles</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<script th:inline="javascript">
+							    /*<![CDATA[*/
+							    	function initializeRoleTable(){
+							    		var link = /*[[@{/role/json}]]*/;
+							    		var roleTable = $("#roleTable").DataTable({
+							    			"ajax": {
+						    		            "url": link,
+						    		            "dataSrc": ""
+						    		        },
+						    		        "columns": [
+						    		            { "data": "name" },
+						    		        ]
+							    		});
+							    		
+							    		$('#roleTable tbody').on( 'click', 'tr', function () {
+							    			var data = roleTable.row( this ).data();
+							    			getRole(data.id);
+							    			if ( $(this).hasClass('selected') ) {
+							    	            $(this).removeClass('selected');
+							    	        }
+							    	        else {
+							    	        	roleTable.$('tr.selected').removeClass('selected');
+							    	            $(this).addClass('selected');
+							    	        }
+							    	    } );
+							    	}
+							    
+							     /*]]>*/
+							</script> 
+							<table id="roleTable" th:fragment="roles" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+								<thead>
+									<tr>
+										<td>Name</td>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>Security Role</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<form th:fragment="form" id="roleForm" th:object="${role}" th:action="@{/role/save}" method="POST" class="form-horizontal form-label-left">
+								<script th:inline="javascript">
+								    /*<![CDATA[*/
+								    	function saveRoleForm(){
+											var form = $('#roleForm');
+											 $.ajax({
+											     type: "POST",
+											     url: form.attr('action'),
+											     data: form.serialize(), // serializes the form's elements.
+											     success: function(data){
+											    	 form.replaceWith(data);
+											    	 $("#roleTable").DataTable().ajax.reload( null, false );
+											     }
+											 });			
+										}
+								    
+								    
+								    	function getRole(id){
+								    		var link = /*[[@{/role/view}]]*/;
+								    		if(id != null && id > 0){
+								    			link = link+"?id="+id;
+								    		}
+								    		$.ajax({
+											     type: "GET",
+											     url: link,
+											     success: function(data){
+											    	 $('#roleForm').replaceWith(data);
+											     }
+											 });			
+								      	}
+							
+								     /*]]>*/
+								</script> 
+								<div th:replace="fragments/fragment-base::validation-global"></div>
+								<input type="hidden" th:field="*{id}"/>
+								<input type="hidden" th:field="*{createdBy}"/>
+								<input type="hidden" th:field="*{lastModifiedBy}"/>
+								<input type="hidden" th:field="*{version}"/>
+								<div class="form-group">
+							    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{role.form.name}"></label>
+								    <div class="col-md-6 col-sm-6 col-xs-12">
+								     	<input type="text" th:field="*{name}" class="form-control col-md-7 col-xs-12" th:errorClass="parsley-error" autofocus="autofocus"/>
+								     	<div th:replace="fragments/fragment-base::validation-errors(field=name)"></div>
+								    </div>
+							   	</div>
+							   	<div class="form-group">
+							    	<label class="control-label col-md-3 col-sm-3 col-xs-12" th:text="#{role.form.description}"></label>
+								    <div class="col-md-6 col-sm-6 col-xs-12">
+								     	<textarea th:field="*{description}" class="form-control col-md-7 col-xs-12" th:errorClass="parsley-error" autofocus="autofocus"></textarea>
+								     	<div th:replace="fragments/fragment-base::validation-errors(field=description)"></div>
+								    </div>
+							   	</div>
+							   	<!-- Auditing -->
+							    <div th:include="fragments/fragment-base::auditing"></div>
+								<div class="ln_solid"></div>
+								<div class="form-group">
+									<div class="col-xs-4">
+										<ul class="nav nav-tabs tabs-left">
+											<li th:each="c, stat : ${permissionContexts}" th:class="${stat.index == 0} ? active"><a th:href="@{'#permissionContext'+__${c.id}__}" data-toggle="tab" th:text="${c.name}"></a></li>
+										</ul>
+									</div>
+									<div class="col-xs-8">
+									  <!-- Tab panes -->
+										<div class="tab-content">
+											<div class="tab-pane" th:each="c, stat : ${permissionContexts}" th:classappend="${stat.index == 0} ? active" th:id="${'permissionContext'+__${c.id}__}">
+									    		<br/>
+									    		<div class="form-group" th:each="p : ${availablePermissions}" th:if="${c.id == p.context}">
+											    	<div class="col-md-2 col-sm-2 col-xs-1">
+												    	<input type="checkbox" th:field="*{permissionIds}" th:value="${p.id}" class="checkbox"/>
+												    </div>
+											    	<label class="col-md-10 col-sm-10 col-xs-11" th:text="${p.readableName}"></label>
+											   	</div>
+										    </div>
+										</div>
+									</div>
+								</div>
+		                    	<div class="form-group">
+					                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                						<button sec:authorize="hasAuthority('SECU_ROLE_SAVE')" class="btn btn-primary" type="button" onclick="getRole()" th:text="#{global.new}"></button>
+    					                <button sec:authorize="hasAuthority('SECU_ROLE_SAVE')" type="button" class="btn btn-success"  onclick="saveRoleForm()" th:text="#{global.save}"></button>
+	                				</div>
+              					</div>
+		                    </form>
+						</div>
+					</div>	
+				</div>	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layout/layout-security">
+<head>
+    
+</head>
+<body layout:fragment="content">
+   	<div class="container body">
+      <div class="main_container">
+        <div class="col-md-12">
+          <div class="col-middle">
+            <div class="mid_center text-center text-center">
+              <h1 class="error-number">500</h1>
+              <h2 th:if="${errorHeading == null}">Internal Server Error.</h2>
+              <p th:if="${errorMessage == null}">We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing.</p>
+             
+              <h2 th:if="${errorHeading != null}" th:text="#{__${errorHeading}__}"></h2>
+              <p th:if="${errorMessage != null}" th:text="#{__${errorMessage}__}"></p>
+              
+               <div sec:authorize="hasAuthority('DEVELOPER_ACCESS')" class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+	         		<div class="panel">
+	                  <a class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	                    <h4 class="panel-title">More Informations</h4>
+	                  </a>
+	                  <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+	                    <div class="panel-body">
+	                      <p th:if="${stackTrace != null}" th:text="${stackTrace}"></p>
+	                    </div>
+	                  </div>
+	                </div>
+          		</div>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div> 
+</body>
+</html>
