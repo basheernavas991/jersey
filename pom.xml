@@ -159,7 +159,12 @@
 			<artifactId>fastclick</artifactId>
 			<version>1.0.6</version>
 		</dependency>
-		
+		<!-- DataTables -->
+		<dependency>
+		    <groupId>com.github.darrachequesne</groupId>
+		    <artifactId>spring-data-jpa-datatables</artifactId>
+		    <version>4.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

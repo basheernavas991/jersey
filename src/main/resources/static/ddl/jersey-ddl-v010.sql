@@ -181,5 +181,19 @@ CREATE TABLE settings.person_telephone
   last_modified_by integer references security.users(id) NOT NULL,
   last_modified_date timestamp with time zone NOT NULL,
   version integer NOT NULL,
-  telephone_number text); 
+  telephone_number text);
+  
+--07th January 2019
+--Saneesh
+--Creating View user_meta_view:
+CREATE VIEW security.user_meta_view as
+SELECT u.id as user_id,
+u.first_name,
+u.last_name,
+u.last_accessed_date,
+u.enabled,
+u.username
+from security.users u
+left join hr.staffs s on u.person_id = s.person_id
+where s.is_individual_user = true;   
   

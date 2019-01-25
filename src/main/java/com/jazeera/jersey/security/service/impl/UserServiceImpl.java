@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import com.jazeera.jersey.security.model.PasswordReset;
 import com.jazeera.jersey.security.model.User;
+import com.jazeera.jersey.security.model.UserMeta;
 import com.jazeera.jersey.security.model.UserRole;
+import com.jazeera.jersey.security.repository.UserMetaRepository;
 import com.jazeera.jersey.security.repository.UserRepository;
 import com.jazeera.jersey.security.repository.UserRoleRepository;
 import com.jazeera.jersey.security.service.UserService;
@@ -40,7 +44,8 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired private UserRepository userRepository;
 	@Autowired private UserRoleRepository userRoleRepository;
-	@Autowired private PasswordEncoder passwordEncoder;
+	@Autowired public PasswordEncoder passwordEncoder;
+	@Autowired private UserMetaRepository userMetaRepository;
 	
 	/*
 	 * (non-Javadoc)
@@ -222,6 +227,12 @@ public class UserServiceImpl implements UserService{
 	public List<Integer> getRoleIds(Integer userId) {
 		return userRoleRepository.findRoleIdsByUserId(userId);
 	}
+	
+	 @Override 
+	 public DataTablesOutput<UserMeta> getUserMetas(DataTablesInput input) { 
+		 return userMetaRepository.findAll(input); }
+	 
+	
 	
 	
 }
