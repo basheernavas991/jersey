@@ -42,10 +42,10 @@ public class UserServiceImpl implements UserService{
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	
-	@Autowired private UserRepository userRepository;
-	@Autowired private UserRoleRepository userRoleRepository;
-	@Autowired public PasswordEncoder passwordEncoder;
-	@Autowired private UserMetaRepository userMetaRepository;
+	@Autowired UserRepository userRepository;
+	@Autowired UserRoleRepository userRoleRepository;
+	@Autowired PasswordEncoder passwordEncoder;
+	@Autowired UserMetaRepository userMetaRepository;
 	
 	/*
 	 * (non-Javadoc)
@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService{
 		 * # Password Encoding: On new User registrations password field is updated with Encoded Password
 		 * # On every update of user, the user password is set from the database before calling repository save operation
 		 */
-		if(user.getPersonId() != null ){
+		/*if(user.getPersonId() != null ){
 			List<User> users=userRepository.findByPersonId(user.getPersonId());
 			if(users.size() > 1){
 				logger.error("Multiple user accounts not allowed for a single person. System received save operation on User. Rejecting operation...");
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService{
 				}
 			}
 			
-		}
+		}*/
 		if(user.getId() == null){
 			//Password Encoding
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -188,14 +188,14 @@ public class UserServiceImpl implements UserService{
 			user.setPassword(userRepository.findById(user.getId()).get().getPassword());
 		}
 		
-		logger.info("Savind User....User State : {}", user);
+		logger.info("Saving User....User State : {}", user);
 		
 		//saving
 		User u = userRepository.save(user);
 		
 		//Assign Roles
 		user.setId(u.getId());
-		assignRolesToUser(user);
+		/*assignRolesToUser(user);*/
 		logger.info("Save operation completed for User : {}", user.getId());
 		return getUser(u.getId());
 	}
@@ -229,8 +229,9 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	 @Override 
-	 public DataTablesOutput<UserMeta> getUserMetas(DataTablesInput input) { 
-		 return userMetaRepository.findAll(input); }
+	 public DataTablesOutput<UserMeta> getUserMetas(DataTablesInput input) {
+		 return userMetaRepository.findAll(input); 
+	 }
 	 
 	
 	

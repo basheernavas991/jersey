@@ -193,7 +193,5 @@ u.last_name,
 u.last_accessed_date,
 u.enabled,
 u.username
-from security.users u
-left join hr.staffs s on u.person_id = s.person_id
-where s.is_individual_user = true;   
+from security.users u;   
   

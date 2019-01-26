@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -181,7 +180,7 @@ public class UserViewController {
 	
 	 @JsonView(DataTablesOutput.View.class)
 	 @RequestMapping(value="/json", method = RequestMethod.GET)
-	 public @ResponseBody DataTablesOutput<UserMeta> getUsers(DataTablesInput input){ 
+	 public @ResponseBody DataTablesOutput<UserMeta> getUsers(DataTablesInput input){
 		 return userService.getUserMetas(input); 
 	 }
 	 
