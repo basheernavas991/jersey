@@ -29,7 +29,7 @@ import com.jazeera.jersey.setting.model.AuditableModel;
 
 @Entity
 @Table(name="users", schema="security")
-public class User extends AuditableModel implements UserDetails {
+public class User extends AuditableModel implements UserDetails{
 
 	private static final long serialVersionUID = 1L;
 	
