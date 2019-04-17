@@ -16,11 +16,7 @@ public class SettingServiceImpl implements SettingsService {
 	Logger logger = LoggerFactory.getLogger(SettingServiceImpl.class);
 	@Autowired private VersionRepository versionRepository;
 
-	@Override
 	public String getVersion() {
 		return versionRepository.findByActive(true).getVersion();
 	}
-
-	
-	
 }

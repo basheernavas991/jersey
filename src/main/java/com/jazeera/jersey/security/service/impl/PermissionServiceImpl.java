@@ -18,12 +18,10 @@ public class PermissionServiceImpl implements PermissionService {
 	@Autowired PermissionRepository permissionRepository;
 	@Autowired PermissionContextRepository permissionContextRepository;
 	
-	@Override
 	public List<Permission> getPermissions() {
 		return (List<Permission>) permissionRepository.findAll();
 	}
 
-	@Override
 	public List<PermissionContext> getPermissionContexts() {
 		return permissionContextRepository.findAllByOrderByNameAsc();
 	}

@@ -10,31 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.jazeera.jersey.setting.service.SettingsService;
 
 @Controller
-@RequestMapping("/security")
-public class SecurityViewController {
+public class HomeViewController {
 
 	@Autowired SettingsService settingService;
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	
-	/**
-	 * Login 
-	 * @return
-	 * @author saneesh
-	 */
-	@RequestMapping("/login")
-	String login(Model model){
-		logger.trace("Routing to Login Screen");
-		//model.addAttribute("version", settingService.getVersion());
-	    return "security/login-new";
-	}
-	
-	@RequestMapping("/")
-    public String greeting(Model model){
-        return "greeting";
-    }
-	
-	
-	@RequestMapping("/home")
+	@RequestMapping("/test/home")
     public String home(Model model){
         return "theme/layout";
     }

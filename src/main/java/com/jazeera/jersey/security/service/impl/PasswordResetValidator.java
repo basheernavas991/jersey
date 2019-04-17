@@ -13,12 +13,10 @@ import com.jazeera.jersey.security.model.PasswordReset;
  */
 public class PasswordResetValidator implements Validator{
 	
-	@Override
 	public boolean supports(Class<?> clazz) {
 		return clazz.equals(PasswordReset.class);
 	}
 
-	@Override
 	public void validate(Object target, Errors errors) {
 		
 		PasswordReset p = (PasswordReset) target;

@@ -26,18 +26,15 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired RolePermissionRepository rolePermissionRepository;
 	
 	
-	@Override
 	public List<Role> getRoles() {
 		return (List<Role>)roleRepository.findAll();
 	}
 
-	@Override
 	public Role getRole(Integer id) {
 		logger.debug("Fetching User ID : {}", id);
 		return roleRepository.findById(id).get();
 	}
 
-	@Override
 	public Role saveRole(Role role) {
 		
 		logger.info("Savind Role....Role State : {}", role.toString());
@@ -76,7 +73,6 @@ public class RoleServiceImpl implements RoleService {
 	}
 	
 	
-	@Override
 	public List<Integer> getPermissionIds(Integer roleId) {
 		return rolePermissionRepository.findPermissionIdsByRoleId(roleId);
 	}
