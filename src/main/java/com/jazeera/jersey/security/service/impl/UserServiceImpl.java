@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService{
 	 * (non-Javadoc)
 	 * @see org.springframework.security.core.userdetails.UserDetailsService#loadUserByUsername(java.lang.String)
 	 */
-	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		logger.trace("Loading user by Username : {}", username);
@@ -82,14 +81,18 @@ public class UserServiceImpl implements UserService{
 			//TODO Write Access Audit Log
 		} catch (Exception e) {
 			logger.error("There is an error while processing the login request: Stack trace {}", e.getMessage());
-			throw e;
+			try {
+				throw e;
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		return user;
 	}
 	
 	
-	@Override
 	public void resetPassword(User user, PasswordReset passwordReset) {
 		
 		logger.info("Resetting password for user : {}", user.getId());
@@ -113,7 +116,6 @@ public class UserServiceImpl implements UserService{
 		resetPassword(passwordReset.getNewPassword(), user.getId());
 	}
 
-	@Override
 	public Boolean hasAuthority(String permission) {
 		for(GrantedAuthority a : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
 			if(a.getAuthority().equals(permission)) {
@@ -123,12 +125,10 @@ public class UserServiceImpl implements UserService{
 		return false;
 	}
 
-	@Override
 	public void resetPassword(String password, Integer userId) {
 		userRepository.updatePassword(passwordEncoder.encode(password), userId);
 	}
 
-	@Override
 	public User getUser(Integer userId) {
 		
 		logger.debug("Fetching User ID : {}", userId);
@@ -136,14 +136,12 @@ public class UserServiceImpl implements UserService{
 		return user;
 	}
 
-	@Override
 	public User getUser(String username) {
 		
 		logger.debug("Fetching User by Username : {}", username);
 		return userRepository.findByUsername(username);
 	}
 
-	@Override
 	public List<User> getUsers() {
 
 		logger.debug("Fetching all Users");
@@ -151,7 +149,6 @@ public class UserServiceImpl implements UserService{
 	}
 
 
-	@Override
 	public User saveUser(User user) {
 		
 		/**
@@ -218,7 +215,6 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
-	@Override
 	public List<Integer> getRoleIds(Integer userId) {
 		return userRoleRepository.findRoleIdsByUserId(userId);
 	}

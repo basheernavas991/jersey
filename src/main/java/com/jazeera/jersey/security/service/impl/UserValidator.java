@@ -9,12 +9,10 @@ import com.jazeera.jersey.security.model.User;
 
 public class UserValidator implements Validator {
 
-	@Override
 	public boolean supports(Class<?> clazz) {
 		return clazz.equals(User.class);
 	}
 
-	@Override
 	public void validate(Object target, Errors errors) {
 		
 		User user = (User) target;
