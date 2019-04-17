@@ -15,16 +15,17 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.jazeera.jersey.setting.model.AuditableModel;
+
 
 @Entity
 @Table(name="users", schema="security")
@@ -60,6 +61,8 @@ public class User extends AuditableModel implements UserDetails {
  	@NotNull
 	private Boolean enabled;
 	private Boolean tokenExpired;
+	
+	private Boolean userPrivacyAccepted;
 	@Transient
 	private String personName;
 	
@@ -82,32 +85,39 @@ public class User extends AuditableModel implements UserDetails {
 	}
 	
 	
+	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.addAll(getPermissions());
 		return authorities;
 	}
 
+	@Override
 	public String getPassword() {
 		return this.password;
 	}
 
+	@Override
 	public String getUsername() {
 		return this.username;
 	}
 
+	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 	
+	@Override
 	public boolean isEnabled() {
 		
 		if(enabled != null)
@@ -223,15 +233,25 @@ public class User extends AuditableModel implements UserDetails {
 	}
 
 
+	public Boolean getUserPrivacyAccepted() {
+		return userPrivacyAccepted;
+	}
+
+
+	public void setUserPrivacyAccepted(Boolean userPrivacyAccepted) {
+		this.userPrivacyAccepted = userPrivacyAccepted;
+	}
+
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", personId=" + personId
 				+ ", confirmPassword=" + confirmPassword + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", email=" + email + ", lastAccessedDate=" + lastAccessedDate + ", enabled=" + enabled
-				+ ", tokenExpired=" + tokenExpired + ", personName=" + personName + ", roles=" + roles + ", rolesIds="
-				+ rolesIds + "]";
+				+ ", tokenExpired=" + tokenExpired + ", userPrivacyAccepted=" + userPrivacyAccepted + ", personName="
+				+ personName + ", roles=" + roles + ", rolesIds=" + rolesIds + ", createdBy=" + createdBy
+				+ ", lastModifiedBy=" + lastModifiedBy + ", createdDate=" + createdDate + ", LastModifiedDate="
+				+ LastModifiedDate + ", version=" + version + ", createdUser=" + createdUser + ", lastModifiedUser="
+				+ lastModifiedUser + "]";
 	}
-
-
-	
 }

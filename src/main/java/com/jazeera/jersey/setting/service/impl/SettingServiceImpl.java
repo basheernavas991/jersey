@@ -14,7 +14,7 @@ import com.jazeera.jersey.setting.service.SettingsService;
 public class SettingServiceImpl implements SettingsService {
 	
 	Logger logger = LoggerFactory.getLogger(SettingServiceImpl.class);
-	@Autowired private VersionRepository versionRepository;
+	@Autowired VersionRepository versionRepository;
 
 	public String getVersion() {
 		return versionRepository.findByActive(true).getVersion();

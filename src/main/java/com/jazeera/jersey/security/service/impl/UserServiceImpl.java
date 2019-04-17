@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import com.jazeera.jersey.security.model.PasswordReset;
 import com.jazeera.jersey.security.model.User;
+import com.jazeera.jersey.security.model.UserMeta;
 import com.jazeera.jersey.security.model.UserRole;
+import com.jazeera.jersey.security.repository.UserMetaRepository;
 import com.jazeera.jersey.security.repository.UserRepository;
 import com.jazeera.jersey.security.repository.UserRoleRepository;
 import com.jazeera.jersey.security.service.UserService;
@@ -38,9 +42,10 @@ public class UserServiceImpl implements UserService{
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	
-	@Autowired private UserRepository userRepository;
-	@Autowired private UserRoleRepository userRoleRepository;
-	@Autowired private PasswordEncoder passwordEncoder;
+	@Autowired UserRepository userRepository;
+	@Autowired UserRoleRepository userRoleRepository;
+	@Autowired PasswordEncoder passwordEncoder;
+	@Autowired UserMetaRepository userMetaRepository;
 	
 	/*
 	 * (non-Javadoc)
@@ -157,7 +162,7 @@ public class UserServiceImpl implements UserService{
 		 * # Password Encoding: On new User registrations password field is updated with Encoded Password
 		 * # On every update of user, the user password is set from the database before calling repository save operation
 		 */
-		if(user.getPersonId() != null ){
+		/*if(user.getPersonId() != null ){
 			List<User> users=userRepository.findByPersonId(user.getPersonId());
 			if(users.size() > 1){
 				logger.error("Multiple user accounts not allowed for a single person. System received save operation on User. Rejecting operation...");
@@ -171,7 +176,7 @@ public class UserServiceImpl implements UserService{
 				}
 			}
 			
-		}
+		}*/
 		if(user.getId() == null){
 			//Password Encoding
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -180,14 +185,14 @@ public class UserServiceImpl implements UserService{
 			user.setPassword(userRepository.findById(user.getId()).get().getPassword());
 		}
 		
-		logger.info("Savind User....User State : {}", user);
+		logger.info("Saving User....User State : {}", user);
 		
 		//saving
 		User u = userRepository.save(user);
 		
 		//Assign Roles
 		user.setId(u.getId());
-		assignRolesToUser(user);
+		/*assignRolesToUser(user);*/
 		logger.info("Save operation completed for User : {}", user.getId());
 		return getUser(u.getId());
 	}
@@ -218,6 +223,13 @@ public class UserServiceImpl implements UserService{
 	public List<Integer> getRoleIds(Integer userId) {
 		return userRoleRepository.findRoleIdsByUserId(userId);
 	}
+	
+	 @Override 
+	 public DataTablesOutput<UserMeta> getUserMetas(DataTablesInput input) {
+		 return userMetaRepository.findAll(input); 
+	 }
+	 
+	
 	
 	
 }
